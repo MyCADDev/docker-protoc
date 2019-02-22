@@ -49,8 +49,10 @@ RUN go get -u github.com/pseudomuto/protoc-gen-doc/cmd/protoc-gen-doc
 
 # Add grpc-web support
 
-RUN curl -sSL https://github.com/grpc/grpc-web/releases/download/1.0.3/protoc-gen-grpc-web-1.0.3-linux-x86_64 \
-    -o /tmp/grpc_web_plugin && \
+RUN wget -O /tmp/grpc_web_plugin.zip https://github.com/grpc/grpc-web/archive/master.zip && \
+    unzip /tmp/grpc_web_plugin.zip -d /tmp/grpc_web_plugin && \
+    cp -r /tmp/grpc_web_plugin/grpc-web-master/* /tmp/grpc_web_plugin/. && \
+    rm -rf /tmp/grpc_web_plugin/grpc-web-master && \
     chmod +x /tmp/grpc_web_plugin
 
 FROM alpine:$alpine AS protoc-all
